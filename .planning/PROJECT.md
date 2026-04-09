@@ -31,9 +31,10 @@ Deliver a premium, minimal, and highly polished luxury trading experience that m
 
 ## Context
 
-- **Tech Stack**: Laravel (API), Next.js (Frontend), MySQL.
+- **Tech Stack**: Laravel (API), Next.js (Frontend - Static Export), MySQL.
+- **Hosting**: GoDaddy cPanel (Shared/Business).
 - **Inspiration**: Cartier, Tiffany & Co., and James Allen (workflows and visual aesthetic).
-- **Architecture**: Headless/Decoupled architecture for production scalability.
+- **Architecture**: Headless/Decoupled architecture with a static frontend talking to a Laravel subdomain API.
 
 ## Constraints
 

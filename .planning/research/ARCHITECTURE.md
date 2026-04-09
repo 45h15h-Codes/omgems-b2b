@@ -16,14 +16,14 @@ The platform uses a **Headless/Decoupled Architecture** to ensure the frontend c
     - **Order Engine**: Handling RFQs, inquiries, and transaction states (Hold, Reserved).
     - **Auth Manager**: Laravel Sanctum for secure, session-based API auth.
 
-2.  **Frontend (Next.js 16)**:
-    - **Storefront**: High-performance "Formula" pages (Diamond Search, Ring Builder).
-    - **Admin Dashboard**: A "Shopify-like" specialized CMS for dynamic section management.
-    - **Asset Handler**: Optimization of high-res media and video backgrounds.
+2. **Frontend (Next.js 16 - Static)**:
+    - **Storefront**: Exported as static HTML/JS. Communicates with API via client-side requests.
+    - **Admin Dashboard**: Secure specialized CMS area within the Next.js app.
+    - **Asset Handler**: Media optimized for fast delivery over GoDaddy's CDN/Web Server.
 
-3.  **External Integrations**:
-    - **Laboratory API (GIA/IGI)**: Real-time certificate verification.
-    - **Payment Gateway**: India (Razorpay) + International (Stripe/Adyen).
+3. **External Integrations**:
+    - **Laboratory API (GIA/IGI)**: Verified on the backend (Laravel).
+    - **Payment Gateway**: India (Razorpay) + International (Stripe).
 
 ### Data Flow
 
@@ -47,8 +47,9 @@ graph TD
 
 ## Scaling Strategy
 
-- **Database**: Partitioning index for diamond search (Shape + Carat + Clarity) to handle >100k listings.
-- **Frontend**: Use Next.js ISR (Incremental Static Regeneration) for product detail pages to serve static content with background updates.
+- **Database**: Standard cPanel MySQL with optimized indexing for diamond filters.
+- **Frontend**: SSG (Static Site Generation) ensures no server-side Node.js overhead.
+- **API**: Hosted on a performance-tuned subdomain.
 - **Media**: Offload 360° videos to a specialized media CDN (Cloudinary or Mux).
 
 ---

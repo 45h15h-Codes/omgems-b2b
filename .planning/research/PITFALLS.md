@@ -28,9 +28,9 @@
 
 ## Technical Gotchas
 
-- **Certificates**: Linking to wrong GIA reports. *Prevention*: Store Report ID and Laboratory as distinct fields; build a direct Link Generator based on lab URL patterns.
-- **Currency Fluctuations**: Setting fixed prices in INR for international buyers. *Prevention*: Use a base currency (USD usually for diamonds) and dynamically convert at checkout.
-- **Media Hydration**: Next.js hydration errors with complex 360 viewers. *Prevention*: Wrap viewers in `ClientOnly` components to prevent SSR mismatches.
+- **cPanel 404s**: Static export of Next.js can lead to 404s on page refresh. *Prevention*: Configure `.htaccess` to redirect all non-file requests to `index.html`.
+- **Inode Limits**: Large projects (Next.js build artifacts) can hit cPanel inode limits. *Prevention*: Clean production builds frequently and avoid storing excessive temp files.
+- **Laravel Public Folder**: Moving files to `public_html` incorrectly. *Prevention*: Always keep core Laravel files *above* the subdomain root.
 
 ---
 *Pitfalls research for: Luxury B2B Jewelry*

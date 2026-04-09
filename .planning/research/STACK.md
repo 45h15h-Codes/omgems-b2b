@@ -10,9 +10,9 @@
 
 | Technology | Version | Purpose | Why Recommended |
 |------------|---------|---------|-----------------|
-| Laravel | 12.x | Backend API | Robust ecosystem for RBAC, API management, and business logic. |
-| Next.js | 16.x | Frontend | Industry standard for high-performance, SEO-friendly luxury web apps. |
-| MySQL | 8.0+ | Database | Reliability and ACID compliance for transaction-heavy B2B data. |
+| Laravel | 12.x | Backend API | Hosted on cPanel subdomain (api.domain.com). |
+| Next.js | 16.x | Frontend | Static Export (SSG) for cPanel compatibility. |
+| MySQL | 8.0+ | Database | Managed via cPanel MySQL Databases. |
 | Tailwind CSS | 4.x | Styling | Rapid development of premium, bespoke luxury interfaces. |
 | TypeScript | 5.x | Language | Type safety across the decoupled stack for maintainability. |
 
@@ -30,20 +30,20 @@
 
 | Tool | Purpose | Notes |
 |------|---------|-------|
-| Laravel Forge | Infrastructure | Streamlined deployment for Laravel APIs. |
-| Vercel | Hosting | Native support for Next.js ISR and global performance. |
-| Redis | Caching | Performance optimization for search queries and sessions. |
+| GoDaddy cPanel | Hosting | Shared/Business hosting for PHP and Static files. |
+| Laravel Forge | CI/CD | (Optional) Can be used if SSH access is available. |
+| Redis | Caching | (Optional) Depends on GoDaddy server availability. |
 
 ## Installation
 
 ```bash
-# Core (Laravel API)
-composer create-project laravel/laravel:^12.0 .
-composer require laravel/sanctum
+# Core (Laravel API setup)
+php artisan install:api
 
-# Frontend (Next.js)
-npx create-next-app@latest ./ --typescript --tailwind --eslint
-npm install framer-motion lucide-react @tanstack/react-query
+# Frontend (Next.js with Static Export)
+npm install
+# Configure next.config.js for output: 'export'
+npm run build
 ```
 
 ## Alternatives Considered
@@ -57,8 +57,8 @@ npm install framer-motion lucide-react @tanstack/react-query
 
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
-| Inertia.js | Less "headless" than a pure Next.js setup; harder to scale for high-end cinematic visuals. | Next.js (Headless) |
-| Standard UI Kits | Too generic for a Tier-1 luxury brand like Cartier/Tiffany. | Bespoke Tailwind components |
+| cPanel Node.js Selector | Resource heavy | Stick to Static Export for stability on shared hosting. |
+| /public_html for Laravel | Security risk | Point subdomain root to /public and keep core files outside web root. |
 
 ## Stack Patterns by Variant
 
