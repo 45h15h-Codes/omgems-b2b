@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Om Gems B2B Luxury Frontend
 
-## Getting Started
+The high-end, cinematic Next.js 16 interface for the Om Gems trading ecosystem.
 
-First, run the development server:
+## Frontend Philosophy
 
+This frontend is built with a "Luxury Minimalist" aesthetic, prioritizing high-performance animations, typography, and a seamless role-based user experience.
+
+### Tech Stack
+- **Framework**: Next.js 16 (App Router)
+- **Library**: React 19
+- **Design System**: 
+  - **Tailwind CSS 4**: Modern styling with utility-first luxury tokens.
+  - **Framer Motion**: Smooth, cinematic transitions and micro-interactions.
+  - **Lucide**: Crisp, professional iconography.
+- **State Management**: Zustand (Global stores for Auth, Search, etc.)
+- **API Client**: Axios with global interceptors for Sanctum auth.
+
+---
+
+## Architectural Features
+
+### 1. Unified Dashboard System
+Located in `app/dashboard/`.
+- A core shell that dynamically adapts its navigation/visibility based on the logged-in user's role.
+- Consistent UI components across all portals (Admin, Merchant, Buyer).
+
+### 2. Luxury Design Tokens
+Defined in `app/globals.css`.
+- High-end monochrome palette (Deep Black, Pure White, Silver).
+- Premium typography scaling.
+- Custom shimmer/loading effects for a polished feel.
+
+### 3. Premier Search Interface
+Located in `components/search/`.
+- Interactive `ShapeGrid` and `StoneCard` components.
+- Real-time filtering with custom `DualRangeSlider`.
+
+---
+
+## Development & Setup
+
+### 1. Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Configuration
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8001
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Running Development Server
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Technical Reference
 
-To learn more about Next.js, take a look at the following resources:
+### Directory Map
+- `app/`: Next.js App Router pages and layouts.
+- `components/ui/`: Low-level, reusable UI elements.
+- `components/search/`: Domain-specific search components.
+- `lib/api.ts`: Centralized API communication logic.
+- `lib/store/`: Zustand state management (e.g., `useSearchStore`).
+- `lib/utils.ts`: Shared helper functions (Tailwind merging, formatting).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Key Workflows
+- **Portals**: Each role has its layout/page structure defined in the App Router to ensure security and logical separation.
+- **Auth**: Frontend tokens are stored securely and used in Axios headers via interceptors.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -1,66 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Om Gems B2B API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The high-performance Laravel 12 backend for the Om Gems trading ecosystem.
 
-## About Laravel
+## Core Backend Architecture
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This API is designed for reliability, technical precision, and security. It handles all business logic, role-based access control, and inventory management.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Tech Stack
+- **Framework**: Laravel 12
+- **Language**: PHP 8.2+
+- **Database**: MySQL / PostgreSQL
+- **Security**: 
+  - **Sanctum**: Token-based API authentication.
+  - **Spatie**: Granular Permission/Role management (RBAC).
+- **Environment**: Container-ready with standard Laravel structure.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Key Technical Components
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Role-Based Access Control (RBAC)
+Located in `app/Providers/AppServiceProvider.php` and `database/seeders/DatabaseSeeder.php`. 
+- Leverages `spatie/laravel-permission`.
+- Defined roles: `SuperAdmin`, `Admin`, `Partner`, `WholesaleBuyer`, `RetailCustomer`.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2. Diamond PIM (Product Information Management)
+- **Model**: `app/Models/Diamond.php`
+- **Controller**: `app/Http/Controllers/DiamondController.php`
+- Manages professional diamond listings with extensive technical specs (Table%, Depth%, Girdle, etc.).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Authentication Flow
+- **Controller**: `app/Http/Controllers/AuthController.php`
+- Handles login, session management, and role-based payload delivery.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Development & Setup
 
-### Premium Partners
+### 1. Installation
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 2. Database Initialization
+```bash
+php artisan migrate --seed
+```
+*Note: The seeder creates a default `SuperAdmin` user (`admin@omgems.com` / `password`) and sets up all required roles.*
 
-## Contributing
+### 3. Running the Server
+```bash
+php artisan serve --port=8001
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Technical Reference
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Directory Map
+- `app/Http/Controllers`: Business logic handlers.
+- `app/Http/Requests`: Strict validation for API inputs (e.g., `StoreDiamondRequest`).
+- `app/Models`: Core data structures with Eloquent relationships.
+- `database/migrations`: Professional schema definitions.
+- `routes/api.php`: Authenticated and public endpoint definitions.
 
-## Security Vulnerabilities
+### Available Artisan Commands
+- `php artisan db:seed`: Repopulate with mock diamond data and roles.
+- `php artisan test`: Run the test suite (once implemented).
+- `php artisan route:list`: View all registered API endpoints.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
