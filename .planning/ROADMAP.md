@@ -127,7 +127,7 @@ This roadmap defines the path to building a Tier-1 luxury B2B diamond and jewell
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & RBAC | 0/2 | Not started | - |
+| 1. Foundation & RBAC | 2/2 | Complete | 2026-04-09 |
 | 2. Diamond PIM | 0/2 | Not started | - |
 | 3. Premier Search | 0/3 | Not started | - |
 | 4. Jewellery & Media | 0/2 | Not started | - |

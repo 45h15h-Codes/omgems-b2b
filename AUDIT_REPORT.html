@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OM Gems B2B Audit Report</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --text: #16202a;
+      --muted: #5d6b7a;
+      --border: #d7dee6;
+      --accent: #8b6b3f;
+      --accent-2: #0f766e;
+      --critical: #b42318;
+      --high: #b54708;
+      --medium: #b7791f;
+      --low: #0f766e;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(139, 107, 63, 0.08), transparent 30%),
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 26%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111827 0%, #1f2937 60%, #0f172a 100%);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #dbeafe;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 860px;
+      color: rgba(248, 250, 252, 0.82);
+      font-size: 16px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .meta-card,
+    .stat-card,
+    .section,
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .meta-card {
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(248, 250, 252, 0.7);
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin: 20px 0 24px;
+    }
+
+    .stat-card {
+      padding: 18px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .stat-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section {
+      margin-top: 20px;
+      padding: 24px;
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .section h3 {
+      margin: 24px 0 12px;
+      font-size: 18px;
+    }
+
+    .section-lead {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 4px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+
+    .pill.done { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
+    .pill.partial { background: #fff7ed; color: #b54708; border-color: #fed7aa; }
+    .pill.pending { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+    .pill.critical { background: #fef3f2; color: var(--critical); border-color: #fecdca; }
+    .pill.high { background: #fff7ed; color: var(--high); border-color: #fed7aa; }
+    .pill.medium { background: #fffbeb; color: var(--medium); border-color: #fde68a; }
+    .pill.low { background: #ecfeff; color: var(--low); border-color: #a5f3fc; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    thead th {
+      background: var(--surface-alt);
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      vertical-align: top;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .list li {
+      margin: 8px 0;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+
+    .footnote {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section + .section {
+      margin-top: 18px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .anchor-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0 0;
+    }
+
+    .anchor-list a {
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .verdict {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 720px) {
+      .wrap {
+        padding: 16px 12px 48px;
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      tbody td,
+      thead th {
+        padding: 10px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <span class="eyebrow">Static audit report</span>
+          <h1>OM Gems B2B Audit Report</h1>
+          <p class="subtitle">
+            Full-stack review of the current Laravel + Next.js codebase, with phase completion tracking,
+            architecture notes, file-structure mapping, code-quality assessment, and a prioritized security and bug review.
+            This report is based on static inspection of the repository state captured on 2026-04-10.
+          </p>
+        </div>
+        <div class="pill-row" aria-label="Audit verdict summary">
+          <span class="pill critical">Production blocked</span>
+          <span class="pill high">Security issues present</span>
+          <span class="pill partial">Major features incomplete</span>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div class="meta-card">
+          <span class="meta-label">Scope</span>
+          <span class="meta-value">web/ + api/</span>
+        </div>
+        <div class="meta-card">
+          <span class="meta-label">Methodology</span>
+          <span class="meta-value">Context build, architecture review, security audit</span>
+        </div>
+        <div class="meta-card">
+          <span class="meta-label">Output</span>
+          <span class="meta-value">Single HTML file at repo root</span>
+        </div>
+        <div class="meta-card">
+          <span class="meta-label">Status</span>
+          <span class="meta-value">Audit complete, code changes not included</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="grid-4" aria-label="Summary metrics">
+      <div class="stat-card">
+        <div class="stat-label">Overall readiness</div>
+        <div class="stat-value">Not production-ready</div>
+        <div class="stat-note">Auth, security, and key feature gaps remain open.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Critical issues</div>
+        <div class="stat-value">1 confirmed</div>
+        <div class="stat-note">Predictable admin credential in the seed path.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">High-priority bugs</div>
+        <div class="stat-value">3 confirmed</div>
+        <div class="stat-note">Login flow, search filtering, and route completeness.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Testing maturity</div>
+        <div class="stat-value">Very thin</div>
+        <div class="stat-note">Only the framework example test is present.</div>
+      </div>
+    </section>
+
+    <section class="section" id="phase-status">
+      <div class="topline">
+        <div>
+          <div class="tagline">Project phases</div>
+          <h2>Completed vs pending work</h2>
+        </div>
+      </div>
+      <p class="section-lead">
+        The codebase is best described as a functional prototype with a polished storefront shell,
+        partial catalog/search capability, and scaffolded merchant/admin flows. The backend is present,
+        but authentication, hardening, and test coverage are not yet complete.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Status</th>
+            <th>Tasks involved</th>
+            <th>What remains to be done</th>
+            <th>Evidence anchors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Brand / landing experience</strong></td>
+            <td><span class="pill done">Completed</span></td>
+            <td>Homepage hero, luxury styling, navigation, CTA, marketing copy, dashboard shell styling.</td>
+            <td>Replace default app metadata, fix encoding artifacts, and load the intended serif/sans fonts consistently.</td>
+            <td>
+              <span class="code">web/app/page.tsx</span>,
+              <span class="code">web/app/layout.tsx:15-17</span>,
+              <span class="code">web/app/globals.css</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>2. Public catalog / search</strong></td>
+            <td><span class="pill partial">Partial</span></td>
+            <td>Diamond catalog page, Zustand filter store, API client, search cards, shape grid, dual range slider, loading state.</td>
+            <td>Fix status-filter default mismatch, implement real sorting and pagination, replace reload-based filter reset, and add empty-state polish.</td>
+            <td>
+              <span class="code">web/app/diamonds/page.tsx</span>,
+              <span class="code">web/lib/store/useSearchStore.ts:53-80</span>,
+              <span class="code">api/app/Models/Diamond.php:39-47</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>3. Authentication / access control</strong></td>
+            <td><span class="pill partial">Partial / blocked</span></td>
+            <td>Login UI, CSRF init helper, Sanctum-aware Axios client, write-route middleware, ownership check on updates and deletes, role seeding.</td>
+            <td>Add the actual backend login/logout flow, connect sign-out, protect dashboard routes, and wire stateful SPA auth end to end.</td>
+            <td>
+              <span class="code">web/app/login/page.tsx:20-24</span>,
+              <span class="code">web/lib/api.ts</span>,
+              <span class="code">api/routes/api.php:10-26</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>4. Merchant dashboard / CRUD</strong></td>
+            <td><span class="pill partial">Partial</span></td>
+            <td>Dashboard shell, overview cards, inventory list, diamond creation form, API create/list integration.</td>
+            <td>Build the missing jewellery, merchants, and settings pages; add edit/delete UI; scope inventory by merchant; hook up sign out.</td>
+            <td>
+              <span class="code">web/app/dashboard/layout.tsx:10-14</span>,
+              <span class="code">web/app/dashboard/diamonds/page.tsx</span>,
+              <span class="code">web/app/dashboard/diamonds/new/page.tsx</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>5. Security hardening</strong></td>
+            <td><span class="pill partial">Partial</span></td>
+            <td>Server-side validation, auth middleware on writes, health route, role package scaffold.</td>
+            <td>Remove seeded credentials, suppress debug defaults before deploy, add rate limiting and API security config, tighten public info exposure, and formalize policies.</td>
+            <td>
+              <span class="code">api/database/seeders/DatabaseSeeder.php:21-28</span>,
+              <span class="code">api/.env.example:1-6</span>,
+              <span class="code">api/routes/api.php:12-18</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>6. Testing / QA / observability</strong></td>
+            <td><span class="pill pending">Not started enough</span></td>
+            <td>Framework skeleton only; there is no meaningful feature, security, or integration test suite yet.</td>
+            <td>Add API integration tests, auth checks, role/ownership tests, filter tests, UI smoke checks, and logging/monitoring coverage.</td>
+            <td>
+              <span class="code">api/tests/Feature/ExampleTest.php</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="architecture">
+      <div class="topline">
+        <div>
+          <div class="tagline">Architecture</div>
+          <h2>System overview</h2>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="callout">
+          <strong>Frontend: Next.js app router storefront and portal</strong>
+          <ul class="list">
+            <li><span class="code">web/app</span> contains the route tree, with pages for the landing page, diamond catalog, login, and the dashboard.</li>
+            <li><span class="code">web/components</span> holds reusable UI blocks for search filters, cards, and sliders.</li>
+            <li><span class="code">web/lib/api.ts</span> centralizes Axios and CSRF bootstrap logic against the Laravel API.</li>
+            <li><span class="code">web/lib/store/useSearchStore.ts</span> owns catalog filter state, query orchestration, and pagination state.</li>
+            <li>The app uses Framer Motion, Radix Slider, Zustand, and Tailwind 4 styling patterns.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <strong>Backend: Laravel API and admin data layer</strong>
+          <ul class="list">
+            <li><span class="code">api/routes/api.php</span> exposes health, user, and diamond endpoints.</li>
+            <li><span class="code">api/app/Http/Controllers/DiamondController.php</span> handles list, show, create, update, and delete actions.</li>
+            <li><span class="code">api/app/Models/Diamond.php</span> implements filtering and merchant relationships.</li>
+            <li><span class="code">api/database</span> holds migrations, factories, and seed data for roles and diamonds.</li>
+            <li>Laravel Sanctum and Spatie Permission are installed, but the auth surface is still incomplete in code.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Data flow</h3>
+      <ol class="list">
+        <li>Users open the Next.js storefront or login page.</li>
+        <li>The frontend initializes CSRF via the Axios helper and then calls the Laravel API.</li>
+        <li>Public catalog queries go to <span class="code">GET /api/diamonds</span> and hydrate the Zustand store.</li>
+        <li>Merchant write actions are guarded by <span class="code">auth:sanctum</span> on the Laravel API routes.</li>
+        <li>Diamond records are validated in <span class="code">StoreDiamondRequest</span>, then stored through Eloquent.</li>
+      </ol>
+
+      <div class="callout">
+        <strong>Architecture verdict</strong>
+        The split between frontend presentation and backend data access is clean and understandable, but the current implementation is still a prototype architecture rather than a production-grade one. The biggest structural gap is that the UI assumes an end-to-end authenticated merchant workflow that the backend does not fully expose yet.
+      </div>
+    </section>
+
+    <section class="section" id="structure">
+      <div class="topline">
+        <div>
+          <div class="tagline">File structure</div>
+          <h2>Repository map</h2>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Role</th>
+            <th>Assessment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="code">web/app</span></td>
+            <td>Next.js routes and page shells.</td>
+            <td>Well organized, but several linked routes are still missing.</td>
+          </tr>
+          <tr>
+            <td><span class="code">web/components</span></td>
+            <td>Reusable UI widgets for search and dashboard interactions.</td>
+            <td>Good component separation; some UI strings and icons need cleanup.</td>
+          </tr>
+          <tr>
+            <td><span class="code">web/lib</span></td>
+            <td>API client, shared utilities, and global search state.</td>
+            <td>Functional, but still relies on any-typed state and a page reload for reset.</td>
+          </tr>
+          <tr>
+            <td><span class="code">api/routes</span></td>
+            <td>Laravel HTTP route declarations.</td>
+            <td>Small and readable, but the login/logout surface is absent.</td>
+          </tr>
+          <tr>
+            <td><span class="code">api/app</span></td>
+            <td>Controllers, models, requests, providers.</td>
+            <td>Core diamond model and controller exist; auth and policy layers are thin.</td>
+          </tr>
+          <tr>
+            <td><span class="code">api/database</span></td>
+            <td>Migrations, factories, and seeders.</td>
+            <td>Useful for local bootstrapping, but the seeded admin credential is unsafe for production.</td>
+          </tr>
+          <tr>
+            <td><span class="code">api/tests</span></td>
+            <td>Laravel test skeleton.</td>
+            <td>Too sparse to protect the current feature set.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="quality">
+      <div class="topline">
+        <div>
+          <div class="tagline">Code quality</div>
+          <h2>Evaluation</h2>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="callout">
+          <strong>Strengths</strong>
+          <ul class="list">
+            <li>The frontend and backend are clearly separated, which makes the codebase easy to reason about.</li>
+            <li>The diamond domain has a real model, migration, factory, scope, and request validation layer.</li>
+            <li>The UI is visually cohesive and uses reusable components rather than a single monolithic page.</li>
+            <li>Search state is centralized in a store, which is better than scattering filter logic across components.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <strong>Weaknesses</strong>
+          <ul class="list">
+            <li>Several pages are only shells or placeholders, so the navigation suggests more product than is actually available.</li>
+            <li>Type safety is weak in the frontend, with broad <span class="code">any</span> usage in the search store and card data.</li>
+            <li>Some UI text and glyphs show encoding corruption, which hurts polish and signals file hygiene issues.</li>
+            <li>The current test coverage is too thin to protect auth, filtering, or merchant workflows.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Overall code-quality verdict</strong>
+        The implementation is above average for a generated prototype on the presentation layer, but below acceptable standards for production readiness because the backend auth path, critical data logic, and security baselines are incomplete.
+      </div>
+    </section>
+
+    <section class="section" id="findings">
+      <div class="topline">
+        <div>
+          <div class="tagline">Security and bugs</div>
+          <h2>Vulnerabilities, major bugs, and critical issues</h2>
+        </div>
+      </div>
+
+      <p class="section-lead">
+        The items below are prioritized by severity and immediate operational risk. The first three are the most urgent blockers.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Severity</th>
+            <th>Issue</th>
+            <th>Evidence</th>
+            <th>Why it matters</th>
+            <th>Immediate action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pill critical">Critical</span></td>
+            <td>Seeded admin account uses a predictable password.</td>
+            <td><span class="code">api/database/seeders/DatabaseSeeder.php:21-28</span></td>
+            <td>The seeder creates <span class="code">admin@omgems.com</span> with <span class="code">admin123</span>. If that seed path is used beyond local development, administrative access is trivial to guess.</td>
+            <td>Remove the hard-coded password, avoid shipping a live admin seed, and move privileged bootstrap into a secure setup flow.</td>
+          </tr>
+          <tr>
+            <td><span class="pill high">High</span></td>
+            <td>Frontend login flow points to a backend route that is not implemented in the scanned API code.</td>
+            <td><span class="code">web/app/login/page.tsx:20-24</span>, <span class="code">api/routes/api.php</span></td>
+            <td>The UI posts to <span class="code">/login</span>, but the Laravel API routes do not define login or logout handlers, so authentication will fail or redirect into a dead end.</td>
+            <td>Add the backend auth endpoints, wire Sanctum/session handling end to end, and connect the post-login redirect to a real session check.</td>
+          </tr>
+          <tr>
+            <td><span class="pill high">High</span></td>
+            <td>Diamond filtering defaults to the wrong status value.</td>
+            <td><span class="code">api/app/Models/Diamond.php:39-47</span>, <span class="code">api/database/migrations/2026_04_09_124532_create_diamonds_table.php</span>, <span class="code">api/database/factories/DiamondFactory.php:37</span></td>
+            <td>The scope defaults to <span class="code">Available</span> while the database, factory, and UI use <span class="code">available</span>. That mismatch can hide inventory or return empty result sets by default.</td>
+            <td>Normalize the enum/value casing in one place and add a regression test for the default catalog query.</td>
+          </tr>
+          <tr>
+            <td><span class="pill high">High</span></td>
+            <td>Dashboard and navigation links point to pages that do not exist yet.</td>
+            <td><span class="code">web/app/page.tsx:15-16</span>, <span class="code">web/app/dashboard/layout.tsx:10-14</span></td>
+            <td>Users can click into <span class="code">/jewellery</span>, <span class="code">/about</span>, <span class="code">/dashboard/jewellery</span>, <span class="code">/dashboard/merchants</span>, and <span class="code">/dashboard/settings</span>, but those routes are not present in the repo.</td>
+            <td>Either implement the routes or remove the links until the pages are ready.</td>
+          </tr>
+          <tr>
+            <td><span class="pill medium">Medium</span></td>
+            <td>Checked-in example environment settings enable debug mode.</td>
+            <td><span class="code">api/.env.example:1-6</span></td>
+            <td><span class="code">APP_DEBUG=true</span> is fine for local development, but it is dangerous if copied into a live environment because it exposes stack traces and internals.</td>
+            <td>Keep the example file clearly labeled as local-only and document a safe production checklist.</td>
+          </tr>
+          <tr>
+            <td><span class="pill medium">Medium</span></td>
+            <td>Public status endpoint reveals environment metadata.</td>
+            <td><span class="code">api/routes/api.php:12-18</span></td>
+            <td>The status route returns the app name and environment, which is acceptable for internal monitoring but unnecessary disclosure for a public endpoint.</td>
+            <td>Restrict it to trusted callers or reduce the payload to a generic health check.</td>
+          </tr>
+          <tr>
+            <td><span class="pill medium">Medium</span></td>
+            <td>API security plumbing looks incomplete.</td>
+            <td><span class="code">api/bootstrap/app.php</span>, <span class="code">api/config/</span> file list</td>
+            <td>No project-local <span class="code">cors.php</span> or <span class="code">sanctum.php</span> config file was present in the reviewed tree, and the middleware bootstrap is empty. That makes cross-origin auth behavior and hardening harder to reason about.</td>
+            <td>Verify the intended Sanctum and CORS setup, then codify it in the repository so the auth flow is reproducible.</td>
+          </tr>
+          <tr>
+            <td><span class="pill low">Low</span></td>
+            <td>Reportable quality issues in the frontend remain unfinished.</td>
+            <td><span class="code">web/app/layout.tsx:15-17</span>, <span class="code">web/app/page.tsx</span>, <span class="code">web/components/search/ShapeGrid.tsx</span>, <span class="code">web/components/ui/DualRangeSlider.tsx</span></td>
+            <td>Default metadata still says <span class="code">Create Next App</span>, some glyphs are garbled, and a few components use shortcuts such as <span class="code">as any</span> or <span class="code">window.location.reload()</span>.</td>
+            <td>Polish the metadata, clean the file encodings, and replace coarse resets with state-driven UX.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Immediate blockers</strong>
+        The first release blockers are the predictable admin seed credential, the missing backend auth route, and the diamond status mismatch. Those three issues alone are enough to keep the product out of production until they are fixed and regression-tested.
+      </div>
+    </section>
+
+    <section class="section" id="recommendations">
+      <div class="topline">
+        <div>
+          <div class="tagline">Next steps</div>
+          <h2>Recommendations</h2>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="callout">
+          <strong>P0</strong>
+          <ul class="list">
+            <li>Remove predictable admin credentials and any production-usable seed accounts.</li>
+            <li>Implement the actual login/logout backend flow and connect the frontend to a real session lifecycle.</li>
+            <li>Fix the diamond status normalization bug and add a test for the default query path.</li>
+          </ul>
+        </div>
+        <div class="callout">
+          <strong>P1</strong>
+          <ul class="list">
+            <li>Fill the missing dashboard routes or trim the navigation to only shipped pages.</li>
+            <li>Define and verify the CORS and Sanctum setup for the frontend API boundary.</li>
+            <li>Replace placeholder behaviors such as page reload resets and inert buttons with real stateful actions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>P2</strong>
+        <ul class="list">
+          <li>Add meaningful feature tests for auth, filtering, create/list flows, and permission checks.</li>
+          <li>Improve frontend type safety and clean up encoding and metadata issues.</li>
+          <li>Add observability and audit logging for privileged actions before expanding the merchant portal.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="appendix">
+      <div class="topline">
+        <div>
+          <div class="tagline">Appendix</div>
+          <h2>Evidence anchors used during review</h2>
+        </div>
+      </div>
+      <div class="anchor-list">
+        <a href="#phase-status">Phase status table</a>
+        <a href="#architecture">Architecture overview</a>
+        <a href="#structure">File structure map</a>
+        <a href="#quality">Code quality assessment</a>
+        <a href="#findings">Security and bug findings</a>
+      </div>
+      <p class="footnote">
+        Key source files reviewed include <span class="code">web/app/page.tsx</span>,
+        <span class="code">web/app/layout.tsx</span>,
+        <span class="code">web/app/login/page.tsx</span>,
+        <span class="code">web/app/dashboard/layout.tsx</span>,
+        <span class="code">web/lib/api.ts</span>,
+        <span class="code">web/lib/store/useSearchStore.ts</span>,
+        <span class="code">api/routes/api.php</span>,
+        <span class="code">api/app/Http/Controllers/DiamondController.php</span>,
+        <span class="code">api/app/Models/Diamond.php</span>,
+        <span class="code">api/database/seeders/DatabaseSeeder.php</span>,
+        and <span class="code">api/.env.example</span>.
+      </p>
+      <div class="verdict">Final verdict: the codebase is a promising prototype, but it is not safe or complete enough for production release yet.</div>
+    </section>
+  </div>
+</body>
+</html>
